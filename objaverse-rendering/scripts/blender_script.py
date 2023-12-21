@@ -266,12 +266,11 @@ def save_images(object_file: str) -> None:
     """Saves rendered images of the object in the scene."""
     os.makedirs(args.output_dir, exist_ok=True)
 
-    reset_scene()
+    reset_scene() # delete all defined objects, light, cameras
 
-    # load the object
-    load_object(object_file)
+    load_object(object_file) # load object in to the scene
     object_uid = os.path.basename(object_file).split(".")[0]
-    normalize_scene()
+    normalize_scene()        # normalize the object to fit in the scene
 
     # create an empty object to track
     empty = bpy.data.objects.new("Empty", None)
@@ -279,17 +278,7 @@ def save_images(object_file: str) -> None:
     cam_constraint.target = empty
 
     randomize_lighting()
-    for i in range(args.num_images):
-        # # set the camera position
-        # theta = (i / args.num_images) * math.pi * 2
-        # phi = math.radians(60)
-        # point = (
-        #     args.camera_dist * math.sin(phi) * math.cos(theta),
-        #     args.camera_dist * math.sin(phi) * math.sin(theta),
-        #     args.camera_dist * math.cos(phi),
-        # )
-        # # reset_lighting()
-        # cam.location = point
+    for i in range(args.num_images): # num image is 8 per object
 
         # set camera
         camera = randomize_camera()
